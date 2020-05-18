@@ -56,10 +56,13 @@ func (s *CatalogService) Search(ctx context.Context, storefront string, opt *Sea
 	}
 
 	// + がうまく動作しないので修正
-	u, _ = url.QueryUnescape(u)
+	nu, err := url.QueryUnescape(u)
+	if err != nil {
+		return nil, nil, err
+	}
 	//
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", nu, nil)
 	if err != nil {
 		return nil, nil, err
 	}
