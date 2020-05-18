@@ -3,6 +3,7 @@ package applemusic
 import (
 	"context"
 	"fmt"
+	"net/url"
 )
 
 // SearchResults represents a results, that contains a map of search results.
@@ -53,6 +54,10 @@ func (s *CatalogService) Search(ctx context.Context, storefront string, opt *Sea
 	if err != nil {
 		return nil, nil, err
 	}
+
+	// + がうまく動作しないので修正
+	u, _ = url.QueryUnescape(u)
+	//
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
